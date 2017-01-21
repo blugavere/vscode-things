@@ -68,4 +68,35 @@ module.exports = {
       ])
     )).eol().build()
   },
+  "Test Repository Method": {
+    prefix: "test:repo:method",
+    body: new Builder().add(wrapDescribe('$1',
+      [].concat.apply([], [
+        wrapIt(`should $1`, [
+          "         Mockgoose.find.yields(null, {})",
+          "         repo.$1('foo', (err, res) => {",
+          assertNoErr,
+          assertResExists,
+          '           done();',
+          '         });',
+        ]),
+        wrapIt(`should fail gracefully`, [
+          "         Mockgoose.find.yields({})",
+          "         repo.$1('foo', err => {",
+          assertErr,
+          '           done();',
+          '         });',
+        ]),
+      ])
+    )).eol().build()
+  },
+  "Test Injection Method": {
+    prefix: "test:inject:method",
+    body: new Builder().add(wrapDescribe('Dependency Injection Support',
+        wrapIt(`should implement di container spec`, [
+          "         expect($1.inject).toExist('expected prop inject to exist');",
+          "         expect(Array.isArray($1.inject)).toBe(true, 'expected di static to return an array');",
+        ])
+    )).eol().build()
+  },
 }

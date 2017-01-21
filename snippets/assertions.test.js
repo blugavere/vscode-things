@@ -8,6 +8,8 @@ const assertions = require('./assertions');
 
 console.log(assertions["Test Controller Method"]);
 console.log(assertions["Test Service Method"]);
+console.log(assertions["Test Repository Method"]);
+console.log(assertions["Test Injection Method"]);
 const mock = {
 };
 
