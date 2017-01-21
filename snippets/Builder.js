@@ -2,7 +2,6 @@
 
 
 // declarations
-// script commands (mocha, istanbul, eslint)
 // before
 // after
 // beforeEach
@@ -16,9 +15,19 @@ class Builder {
     this.add = this.add.bind(this);
     this.scripts = this.scripts.bind(this);
     this.eol = this.eol.bind(this);
+    this.strict = this.strict.bind(this);
   }
+
   eol() {
     this.add(['']);
+    return this;
+  }
+  strict() {
+    this.add([
+			"",
+			"'use strict';",
+			"",      
+    ]);
     return this;
   }
   add(arr) {
