@@ -7,28 +7,36 @@ const sinon = require('sinon');
 const Builder = require('./Builder');
 
 /**
-* helper: /Users/benlugavere/Desktop/development/vscode-things/snippets/builder.test.js
-* mocha --require clarify ./path/to/file.test.js --watch
+* helper: snippets/builder.test.js
+* mocha snippets/builder.test.js --watch
 * istanbul cover --print both node_modules/.bin/_mocha -- ./path/to/file.test.js
 */
 
 describe(path.basename(__filename).replace('.test.js', ''), () => {
   let sandbox;
+  let builder;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+    builder = new Builder();
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  it('should pass', () => {
-    expect(true).toBe(true);
+  describe('add', () => {
+    it('should add an array', () => {
+      const result = builder.add(['ben']).build();
+      expect(result[0]).toEqual('ben');
+      expect(result.length).toBe(1);
+    });
   });
-
-  it('should also pass', done => {
-    expect(true).toBe(true);
-    done();
+  describe('scripts', () => {
+    it('should build a script', () => {
+      const result = builder.add(['ben']).scripts().build();
+      expect(result[0]).toEqual('ben');
+      expect(result.length).toBe(4);
+    });
   });
 });
