@@ -35,8 +35,9 @@ describe(path.basename(__filename).replace('.test.js', ''), () => {
   describe('scripts', () => {
     it('should build a script', () => {
       const result = builder.add(['ben']).scripts().build();
+      console.log(result);
       expect(result[0]).toEqual('ben');
-      expect(result.length).toBe(4);
+      expect(result.length).toBe(7);
     });
   });
 });

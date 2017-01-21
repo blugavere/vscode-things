@@ -25,14 +25,19 @@ class Builder {
     this.snippet = this.snippet.concat(arr);
     return this;
   }
+
   scripts() {
     this.snippet = this.snippet.concat(
-      'foo',
-      'bar',
-      'buzy'
+      '/**',
+      '* helper: ${TM_FILEPATH}',
+      '* mocha --require clarify ./path/to/file.test.js --watch',
+      '* istanbul cover --print both node_modules/.bin/_mocha -- ./path/to/file.test.js',
+      '* eslint ./path/to/file.test.js --watch',
+      '*/'
     )
     return this;
   }
+
   build() {
     return this.snippet;
   }
