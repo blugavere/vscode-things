@@ -2,7 +2,7 @@
   "name": "vscode-things",
   "version": "1.0.0",
   "description": "",
-  "main": "test.js",
+  "main": "snippets/main.js",
   "scripts": {
     "snippets": "node snippets/main"
   },
@@ -11,7 +11,7 @@
     "url": "git+https://github.com/blugavere/vscode-things.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Ben Lugavere",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/blugavere/vscode-things/issues"

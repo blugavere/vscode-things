@@ -7,6 +7,6 @@ Generate some snippets.
 
 ```bash
 
-    npm run snippets
+npm run snippets
 
 ```

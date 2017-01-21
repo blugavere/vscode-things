@@ -14,7 +14,7 @@ module.exports = {
 		],
 		"description": "Log output to console"
 	}
-	for use with atom: https://atom.io/packages/vscode-snippets
+	
 */
 "create component": {
     "prefix": "component",
