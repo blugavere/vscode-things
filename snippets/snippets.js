@@ -1,39 +1,13 @@
+'use strict';
 
+const Builder = require('./Builder');
+const react = require('./react');
+const assertions = require('./assertions');
 
-module.exports = {
-	/*
-	 // Place your snippets for JavaScript here. Each snippet is defined under a snippet name and has a prefix, body and 
-	 // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
-	 // $1, $2 for tab stops, ${id} and ${id:label} and ${1:label} for variables. Variables with the same id are connected.
-	 // Example:
-	 "Print to console": {
-		"prefix": "log",
-		"body": [
-			"console.log('$1');",
-			"$2"
-		],
-		"description": "Log output to console"
-	}
-	
-*/
-"create component": {
-    "prefix": "component",
-    "body": [
-        "class $1 extends React.Component {",
-        "",
-        "   render() {",
-        "       return ($2);",
-        "   }",
-        "",
-        "}"
-    ]
-},
-	"test setup": {
+module.exports = Object.assign({}, assertions, react, {
+	"Unit Test Setup": {
 		"prefix": "test",
-		"body": [
-			"",
-			"'use strict';",
-			"",
+		"body": new Builder().strict().add([
 			"const path = require('path');",
 			"const expect = require('expect');",
 			"const sinon = require('sinon');",
@@ -41,11 +15,7 @@ module.exports = {
 			"const mock = {",
 			"};",
 			"",
-			"/**",
-			"* helper: ${TM_FILEPATH}",
-			"* mocha --require clarify $2 --watch",
-			"* istanbul cover --print both node_modules/.bin/_mocha -- $2",
-			"*/",
+		]).scripts().add([
 			"",
 			"describe(path.basename(__filename).replace('.test.js', ''), () => {",
 			"	let sandbox;",
@@ -76,16 +46,104 @@ module.exports = {
 			"	});",
 			"});",
 			""
+		]).build()
+	},
+	"Integration Test Setup": {
+		"prefix": "integration:test",
+		"body": [
+			"",
+			"'use strict';",
+			"",
+			"const path = require('path');",
+			"const expect = require('expect');",
+			"const sinon = require('sinon');",
+			"const assert = require('assert');",
+			"const mongoose = require('mongoose');",
+			"",
+			"const types = require('../../admin/startup/di/types');",
+			"const Mocks = require('../../admin/controllers/base/Mocks');",
+			"const chalk = require('chalk');",
+			"const app = { set() {} };",
+			"const mock = {",
+			"};",
+			"",
+			"/**",
+			"* helper: ${TM_FILEPATH}",
+			"* mocha --require clarify $2 --watch",
+			"* istanbul cover --print both node_modules/.bin/_mocha -- $2",
+			"* eslint $2",
+			"*/",
+			"",
+			"describe('$1 Integration Test', () => {",
+			"	let sandbox;",
+			"	let req = Mocks.req;",
+			"	let res = Mocks.res;",
+			"	let ctrl;",
+			"	let repo;",
+			"	let injector;",
+			"",
+			"	before(() => {",
+			"		require('../../models/plugins/autoincr').init();",
+			"		require('../../models/loadModels');",
+			"		injector = require('../../admin/startup/injector.config').default.configure(app);",
+			"		ctrl = injector.get(types.$1Ctrl);",
+			"		repo = injector.get(types.$1Repository);",
+			"		mongoose.connect('mongodb://localhost/giddy-test');",
+			"	});",
+			"",
+			"	after(() => {",
+			"		mongoose.models = {};",
+			"		mongoose.modelSchemas = {};",
+			"		mongoose.connection.models = {};",
+			"		mongoose.disconnect();",
+			"	});",
+			"",
+			"	beforeEach(() => {",
+			"		sandbox = sinon.sandbox.create();",
+			"		sandbox.stub(res);",
+			"		sandbox.stub(req);",
+			"	});",
+			"",
+			"	afterEach(() => {",
+			"		sandbox.restore();",
+			"	});",
+			"",
+			"	describe('queries', () => {",
+			"		it('should be able to find a $1', done => {",
+			"			repo.findOne('id', (err, doc) => {",
+			"				expect(doc).toExist('expected $1 to exist');",
+			"				done();",
+			"			});",
+			"		});",
+			"	});",
+			"",
+			"	describe('routes', () => {",
+			"		afterEach(() => {",
+			"			expect(res.send.called).toBe(true, 'res.send never called');",
+			"		});",
+			"",
+			"		it('should do something', done => {",
+			"			req.body = {};",
+			"			ctrl.method(req, res); //EDIT",
+			"			setTimeout(() => {",
+			"				expect(res.status.calledWith(200)).toBe(true, 'res.status called with wrong status code');",
+			"				done();",
+			"			}, 100);",
+			"		});",
+			"	});",
+			"",
+			"});",
+			""
 		]
 	},
-	"repository": {
+	"Repository": {
 		"prefix": "repository",
 		"body": [
 			"",
 			"'use strict';",
 			"",
-			"const types = require('');",
-			"const MongooseRepository = require('');",
+			"const types = require('../../admin/startup/di/types');",
+			"const MongooseRepository = require('../repositories/base/MongooseRepository');",
 			"",
 			"function populate(queryable) {",
 			"    return queryable;",
@@ -122,7 +180,7 @@ module.exports = {
 			"const expect = require('expect');",
 			"const sinon = require('sinon');",
 			"const _ = require('lodash');",
-			"const Mockgoose = require('');",
+			"const Mockgoose = require('../repositories/base/Mockgoose');",
 			"const Repository = require('./$1Repository');",
 			"",
 			"/**",
@@ -170,13 +228,13 @@ module.exports = {
 			""
 		]
 	},
-	"service": {
+	"Service": {
 		"prefix": "service",
 		"body": [
 			"",
 			"'use strict';",
 			"",
-			"const types = require('');",
+			"const types = require('../../admin/startup/di/types');",
 			"",
 			"class $1Service {",
 			"    static get inject(){",
@@ -199,7 +257,30 @@ module.exports = {
 			""
 		]
 	},
-	"service test": {
+	"Service Method": {
+		"prefix": "service:test:method",
+		"body": [
+			"describe('$1', () => {",
+			"	it('should $1', done => {",
+			"		repo.findOne.yields(null, {});",
+			"		service.$1('foo', (err, doc) => {",
+			"			expect(err).toNotExist();",
+			"			expect(doc).toExist();",
+			"			done();",
+			"		});",
+			"	});",
+			"",
+			"	it('should fail gracefully', done => {",
+			"		repo.findOne.yields({});",
+			"		service.$1('foo', err => {",
+			"			expect(err).toExist();",
+			"			done();",
+			"		});",
+			"	});",
+			"});"
+		]
+	},
+	"Service Test Setup": {
 		"prefix": "service:test",
 		"body": [
 			"",
@@ -209,7 +290,7 @@ module.exports = {
 			"const sinon = require('sinon');",
 			"const $1Service = require('./$1Service');",
 			"",
-			"const repo = Object.assign({}, require(''), {",
+			"const repo = Object.assign({}, require('../repositories/base/MockRepo'), {",
 			"	findOneDetailed(){}",
 			"});",
 			"",
@@ -254,13 +335,13 @@ module.exports = {
 			""
 		]
 	},
-	"factory": {
+	"Factory": {
 		"prefix": "factory",
 		"body": [
 			"",
 			"'use strict';",
 			"",
-			"const types = require('');",
+			"const types = require('../../admin/startup/di/types');",
 			"",
 			"class $1Factory {",
 			"    static get inject(){",
@@ -284,102 +365,56 @@ module.exports = {
 			"module.exports = $1Factory;"
 		]
 	},
-	"component test": {
-		"prefix": "test:component",
-		"body": [
-			"",
-			"'use strict';",
+	"Factory Test Setup": {
+		"prefix": "factory:test",
+		"body": new Builder().strict().add([
 			"",
 			"const expect = require('expect');",
 			"const sinon = require('sinon');",
-			"const React = require('react');",
-			"const shallow = require('enzyme').shallow;",
+			"const $1Factory = require('./$1Factory');",
+			""
+		]).scripts().add([
 			"",
-			"const setup = () => {",
-			"	const props = {",
-			"	//define props here",
-			"	};",
-			" return shallow(<Component {...props} />);",
-			"};",
-			"",
-			"describe('<Component />', () => {",
-			"",
-			"let component",
-			"",
-			"beforeEach(() => {",
-			"	component = setup();",
-			"});",
-			"",
-			"describe('Component Feature', () => {",
-			"",
-			"	it('should pass', () => {",
-			"		expect(true).toBe(true);",
-			"	});",
-			"",
-			"	it('should also pass', done => {",
-			"		expect(true).toBe(true);",
-			"		done();",
-			"	});",
-			"",
-			"});",
-			"",
-			"});",
-			"",
-			"// examples: ",
-			"// component.find(DialogActions).childAt(0).simulate('click');",
-			"// expect(wrapper.find(DialogActions).childAt(1).childAt(0).text()).toEqual('Cancel');",
-			"// expect(component.find(DialogTitle).childAt(0).text()).toEqual('foo');"
-		]
-	},
-	"actions test": {
-		"prefix": "test:actions",
-		"body": [
-			"",
-			"const expect = require('expect');",
-			"const sinon = require('sinon');",
-			"import * as actions from './actions';",
-			"import * as types from './constants';",
-			"import configureMockStore from 'redux-mock-store';",
-			"import thunk from 'redux-thunk';",
-			"",
-			"const middlewares = [thunk];",
-			"const mockStore = configureMockStore(middlewares);",
-			"",
-			"",
-			"describe('Component Actions', () => {",
-			"	let store;",
-			"",
-			"	before(() => {",
-			"	store = mockStore();",
-			"	});",
-			"",
-			"	after(() => {",
-			"",
-			"	});",
+			"describe('$1Factory', () => {",
+			"	let sandbox;",
+			"	let Model = function(){}",
 			"",
 			"	beforeEach(() => {",
-			"",
+			"		sandbox = sinon.sandbox.create();",
+			"		factory = new $1Factory(Model);",
 			"	});",
 			"",
-			"	beforeEach(() => {",
-			"		store.clearActions();",
+			"	afterEach(() => {",
+			"		sandbox.restore();",
 			"	});",
 			"",
-			"	describe('Component Feature', () => {",
+			"	describe('general', () => {",
+			"		it('should have an injection static', () => {",
+			"			expect(Array.isArray($1Factory.inject)).toBe(true);",
+			"		});",
+			"	});",
 			"",
-			"		it('should pass', () => {",
-			"			expect(true).toBe(true);",
+			"	describe('$1 Factory Methods', () => {",
+			"		describe('create', () => {",
+			"			it('should create a $1', done => {",
+			"				factory.create(data, (err, res) => {",
+			"					expect(res).toExist('expected factory to create');",
+			"					done();",
+			"				});",
+			"			});",
 			"		});",
 			"",
-			"		it('should also pass', done => {",
-			"			expect(true).toBe(true);",
-			"			done();",
+			"		describe('reconstitute', () => {",
+			"			it('should reconstitute a $1', done => {",
+			"				factory.reconstitute(data, (err, res) => {",
+			"					expect(res).toExist('expected factory to reconstitute');",
+			"					done();",
+			"				});",
+			"			});",
 			"		});",
-			"",
 			"	});",
-			"",
 			"});",
 			""
-		]
-	}
-}
+		]).build()
+	},
+});
