@@ -3,8 +3,20 @@
 const Builder = require('./Builder');
 const react = require('./react');
 const assertions = require('./assertions');
+const docs = require('./docs');
 
-module.exports = Object.assign({}, assertions, react, {
+module.exports = Object.assign({}, assertions, react, docs, {
+	"Route Setup": {
+		prefix: 'route',
+		body: new Builder().strict().add(
+			'const register = (app, injector) => {',
+			'',
+			'',
+			'',
+			'module.exports = register;',
+			''
+		).build()
+	},
 	"Unit Test Setup": {
 		"prefix": "test",
 		"body": new Builder().strict().add([
