@@ -12,6 +12,7 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'const register = (app, injector) => {',
 			'',
 			'',
+			'};',
 			'',
 			'module.exports = register;',
 			''
