@@ -8,14 +8,14 @@ const docs = require('./docs');
 module.exports = Object.assign({}, assertions, react, docs, {
 	"Route Setup": {
 		prefix: 'route',
-		body: new Builder().strict().add(
+		body: new Builder().strict().add([
 			'const register = (app, injector) => {',
 			'',
 			'',
 			'',
 			'module.exports = register;',
 			''
-		).build()
+		]).build()
 	},
 	"Unit Test Setup": {
 		"prefix": "test",
