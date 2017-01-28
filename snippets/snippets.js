@@ -9,9 +9,13 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	"Route Setup": {
 		prefix: 'route',
 		body: new Builder().strict().add([
+			'',
+			"const types = require(''); // path to types",
+			'',
 			'const register = (app, injector) => {',
+			'	const ctrl = injector.get(types.$1Ctrl);',
 			'',
-			'',
+			"	app.get('/model', ctrl.findAll);",
 			'};',
 			'',
 			'module.exports = register;',

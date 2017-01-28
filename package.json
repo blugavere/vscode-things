@@ -4,7 +4,8 @@
   "description": "",
   "main": "snippets/main.js",
   "scripts": {
-    "snippets": "node snippets/main"
+    "snippets": "node snippets/main",
+    "tasks": "node tasks"
   },
   "repository": {
     "type": "git",
