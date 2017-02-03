@@ -96,6 +96,7 @@ module.exports = {
         wrapIt(`should implement di container spec`, [
           "         expect($1.inject).toExist('expected prop inject to exist');",
           "         expect(Array.isArray($1.inject)).toBe(true, 'expected di static to return an array');",
+          "         done();"
         ])
     )).eol().build()
   },
