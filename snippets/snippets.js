@@ -501,4 +501,19 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			""
 		]).build()
 	},
+	"Mongoose Model": {
+		prefix: 'mongoose:model',
+		body: new Builder().strict().add([
+			'',
+			"const mongoose = require('mongoose');",
+			'',
+			'const schema = new mongoose.Schema({',
+			'});',
+			'',
+			'const register = () => mongoose.model(modelName, schema);',
+			'',
+			'module.exports = register;',
+			''
+		]).build()
+	},
 });
