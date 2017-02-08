@@ -7,7 +7,7 @@
 // beforeEach
 // afterEach
 // describe(text, numIndents)
-// 
+//
 
 class Builder {
   constructor(snippet) {
@@ -16,6 +16,7 @@ class Builder {
     this.scripts = this.scripts.bind(this);
     this.eol = this.eol.bind(this);
     this.strict = this.strict.bind(this);
+    this.inject = this.inject.bind(this);
   }
 
   eol() {
@@ -24,15 +25,23 @@ class Builder {
   }
   strict() {
     this.add([
-			"",
-			"'use strict';",
-			"",      
+			'',
+			'\'use strict\';',
+			'',
     ]);
     return this;
   }
   add(arr) {
     this.snippet = this.snippet.concat(arr);
     return this;
+  }
+  inject(){
+    return this.add([
+      '   static get inject(){',
+			'     return [',
+			'     ];',
+			'   }'
+    ]);
   }
 
   scripts() {
@@ -43,7 +52,7 @@ class Builder {
       '* istanbul cover --print both node_modules/.bin/_mocha -- ./path/to/file.test.js',
       '* eslint ./path/to/file.test.js --watch',
       '*/'
-    )
+    );
     return this;
   }
 
