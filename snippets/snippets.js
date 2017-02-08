@@ -67,10 +67,7 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	},
 	'Integration Test Setup': {
 		'prefix': 'integration:test',
-		'body': [
-			'',
-			'\'use strict\';',
-			'',
+		'body': new Builder().strict().add([
 			'const path = require(\'path\');',
 			'const expect = require(\'expect\');',
 			'const sinon = require(\'sinon\');',
@@ -100,12 +97,12 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'	let injector;',
 			'',
 			'	before(() => {',
-			'		require(\'../../models/plugins/autoincr\').init();',
-			'		require(\'../../models/loadModels\');',
+			'		require(\'\').init(); //autoincr',
+			'		require(\'\'); // model registry',
 			'		injector = require(\'\').default.configure(app);',
 			'		ctrl = injector.get(types.$1Ctrl);',
 			'		repo = injector.get(types.$1Repository);',
-			'		mongoose.connect(\'mongodb://localhost/giddy-test\');',
+			'		mongoose.connect(\'\'); // mongodb connection string',
 			'	});',
 			'',
 			'	after(() => {',
@@ -150,15 +147,11 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'	});',
 			'',
 			'});',
-			''
-		]
+		]).eol().build()
 	},
 	'Repository': {
 		'prefix': 'repository',
-		'body': [
-			'',
-			'\'use strict\';',
-			'',
+		'body': new Builder().strict().add([
 			'const types = require(\'\');',
 			'const MongooseRepository = require(\'../repositories/base/MongooseRepository\');',
 			'',
@@ -185,14 +178,11 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'',
 			'module.exports = $1Repository;',
 			''
-		]
+		]).eol().build()
 	},
 	'Repository Test Setup': {
 		'prefix': 'repository:test',
-		'body': [
-			'',
-			'\'use strict\';',
-			'',
+		'body': new Builder().strict().add([
 			'const path = require(\'path\');',
 			'const expect = require(\'expect\');',
 			'const sinon = require(\'sinon\');',
@@ -242,15 +232,11 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'		});',
 			'	});',
 			'});',
-			''
-		]
+		]).eol().build()
 	},
 	'Service': {
 		'prefix': 'service',
-		'body': [
-			'',
-			'\'use strict\';',
-			'',
+		'body': new Builder().strict().add([
 			'const types = require(\'\');',
 			'',
 			'class $1Service {',
@@ -270,9 +256,8 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'',
 			'}',
 			'',
-			'module.exports = $1Service;',
-			''
-		]
+			'module.exports = $1Service;'
+		]).eol().build()
 	},
 	'Service Method': {
 		'prefix': 'service:test:method',
