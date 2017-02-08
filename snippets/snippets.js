@@ -419,7 +419,7 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'',
 			'describe(\'$1Ctrl\', () => {',
 			'	let sandbox;',
-			'	let ctrl',
+			'	let ctrl;',
 			'	let req;',
 			'	let res;',
 			'',
