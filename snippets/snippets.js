@@ -24,10 +24,8 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	},
 	'Unit Test Setup': {
 		'prefix': 'test',
-		'body': new Builder().strict().add([
+		'body': new Builder().strict().testRequires().add([
 			'const path = require(\'path\');',
-			'const expect = require(\'expect\');',
-			'const sinon = require(\'sinon\');',
 			'',
 			'const mock = {',
 			'};',
@@ -67,11 +65,8 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	},
 	'Integration Test Setup': {
 		'prefix': 'integration:test',
-		'body': new Builder().strict().add([
+		'body': new Builder().strict().testRequires().add([
 			'const path = require(\'path\');',
-			'const expect = require(\'expect\');',
-			'const sinon = require(\'sinon\');',
-			'const assert = require(\'assert\');',
 			'const mongoose = require(\'mongoose\');',
 			'',
 			'const types = require(\'\');',
@@ -182,11 +177,8 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	},
 	'Repository Test Setup': {
 		'prefix': 'repository:test',
-		'body': new Builder().strict().add([
+		'body': new Builder().strict().testRequires().add([
 			'const path = require(\'path\');',
-			'const expect = require(\'expect\');',
-			'const sinon = require(\'sinon\');',
-			'const _ = require(\'lodash\');',
 			'const Mockgoose = require(\'../repositories/base/Mockgoose\');',
 			'const Repository = require(\'./$1Repository\');',
 			'',
@@ -284,9 +276,7 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	},
 	'Service Test Setup': {
 		'prefix': 'service:test',
-		'body': new Builder().strict().add([
-			'const expect = require(\'expect\');',
-			'const sinon = require(\'sinon\');',
+		'body': new Builder().strict().testRequires().add([
 			'const $1Service = require(\'./$1Service\');',
 			'',
 			'const repo = Object.assign({}, require(\'../repositories/base/MockRepo\'), {',
@@ -366,10 +356,8 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	},
 	'Factory Test Setup': {
 		'prefix': 'factory:test',
-		'body': new Builder().strict().add([
+		'body': new Builder().strict().testRequires().add([
 			'',
-			'const expect = require(\'expect\');',
-			'const sinon = require(\'sinon\');',
 			'const $1Factory = require(\'./$1Factory\');',
 			''
 		]).scripts().add([
@@ -420,10 +408,8 @@ module.exports = Object.assign({}, assertions, react, docs, {
 	},
 	'Ctrl Test Setup': {
 		'prefix': 'ctrl:test',
-		'body': new Builder().strict().add([
+		'body': new Builder().strict().testRequires().add([
 			'',
-			'const expect = require(\'expect\');',
-			'const sinon = require(\'sinon\');',
 			'const $1Ctrl = require(\'./$1Ctrl\');',
 			'const Mocks = require(\'\');',
 			'const service = {',

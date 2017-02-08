@@ -17,6 +17,7 @@ class Builder {
     this.eol = this.eol.bind(this);
     this.strict = this.strict.bind(this);
     this.inject = this.inject.bind(this);
+    this.testRequires = this.testRequires.bind(this);
   }
 
   eol() {
@@ -41,6 +42,15 @@ class Builder {
 			'     return [',
 			'     ];',
 			'   }'
+    ]);
+  }
+  
+  testRequires(){
+    return this.add([
+      'const _ = require(\'lodash\');',
+      'const assert = require(\'assert\');',
+			'const expect = require(\'expect\');',
+			'const sinon = require(\'sinon\');',
     ]);
   }
 
