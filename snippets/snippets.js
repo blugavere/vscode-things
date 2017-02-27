@@ -525,7 +525,7 @@ module.exports = Object.assign({}, assertions, react, docs, {
 			'	  * find one $1',
 			'	  * @param {object} req - request object',
 			'	  * @param {object} res - response object',
-			'	  * @param {function} - err handler',
+			'	  * @param {function} done - err handler',
 			'	  * @returns {void}',
 			'	  */',
 			'    findOne(req, res, done) {',
